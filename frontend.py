@@ -26,14 +26,19 @@ if user_input:
     with st.chat_message("user"):
         st.text(user_input)
 
-    # we will get the response from the chatbot
-    response = chatbot.invoke({"messages": [HumanMessage(content=user_input)]},config=CONFIG)
-    ai_message = response["messages"][-1].content  # get the last message from the response
+    
+    
+    
+    # we will get the response from the chatbot but we will stream the response in chunks and display it in the chat message
+    with st.chat_message("assistant"):
+        ai_message = st.write_stream(message_chunk.content for message_chunk,metadata in chatbot.stream(
+            {"messages": [HumanMessage(content=user_input)]},
+            config=CONFIG,
+            stream_mode='messages'
+        ))
 
     # adding the AI message to the session state message history
     st.session_state.message_history.append({"role": "assistant", "content": ai_message})
-    with st.chat_message("assistant"):
-        st.text(ai_message)
 
 
  
