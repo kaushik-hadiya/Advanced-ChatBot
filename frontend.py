@@ -81,7 +81,10 @@ if user_input:
         st.text(user_input)
 
     
-    CONFIG = {'configurable':{'thread_id': st.session_state.thread_id}}
+    CONFIG = {
+        'configurable':{'thread_id': st.session_state.thread_id},
+        'run_name':"chat_turn"
+        }
     
     # we will get the response from the chatbot but we will stream the response in chunks and display it in the chat message
     with st.chat_message("assistant"):

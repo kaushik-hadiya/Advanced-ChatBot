@@ -36,7 +36,9 @@ chatbot = graph.compile(checkpointer=checkpointer)
 or can give us all the checkpoints of a specific thread by passing the thread_id as an argument to the list() method."""
 
 def retrieve_all_threads():
-    all_threads = set()
+    all_threads = []
     for checkpoint in checkpointer.list(None):
-        all_threads.add(checkpoint['configurable']['thread_id'])
-    return list(all_threads)
+        thread_id = checkpoint.config['configurable']['thread_id']
+        if thread_id not in all_threads:
+            all_threads.append(thread_id)
+    return all_threads
